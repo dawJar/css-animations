@@ -10,12 +10,16 @@ const gulp          = require('gulp'),
       uglify        = require('gulp-uglify'),
       changed       = require('gulp-changed'),
       clean         = require('gulp-clean'),
+      babel         = require('gulp-babel'),
       browserSync   = require('browser-sync').create();
 
 
 // scripts
 gulp.task('js', function () {
    gulp.src('./src/js/**/*.js')
+      .pipe(babel({
+          presets: ['es2015']
+       }))
       .pipe(concat('script.js'))
       .pipe(uglify())
       .pipe(gulp.dest('./dist/js/'))
