@@ -1,2 +1,5 @@
 /node_modules
 /dist
+/public
+/bower_components
+/src/bower_components

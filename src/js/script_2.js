@@ -1,5 +1,5 @@
-let scr2 = 'two';
 
+let scr2 = 'two';
 
 let arr = [
   ['mark doe', 'waffle', 50, 2],

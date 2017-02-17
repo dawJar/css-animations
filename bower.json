@@ -1,0 +1,21 @@
+{
+  "name": "vanilla-js",
+  "description": "",
+  "main": "gulpfile.js",
+  "authors": [
+    "dawJar"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/dawJar/javaScript-s",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "requirejs": "^2.3.2",
+    "jquery": "^3.1.1"
+  }
+}
