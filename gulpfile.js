@@ -11,12 +11,14 @@ const gulp          = require('gulp'),
       changed       = require('gulp-changed'),
       clean         = require('gulp-clean'),
       babel         = require('gulp-babel'),
+      plumber       = require('gulp-plumber'),
       browserSync   = require('browser-sync').create();
 
 
 // scripts
 gulp.task('js', function () {
    gulp.src('./src/js/**/*.js')
+      .pipe(plumber())
       .pipe(babel({
           presets: ['es2015']
        }))
@@ -33,6 +35,7 @@ gulp.task('js', function () {
 // styles
 gulp.task('styles', function () {
    gulp.src('./src/styles/**/*.scss')
+      .pipe(plumber())
       .pipe(sass().on('error', sass.logError))
       .pipe(autoprefixer({
          browsers: ['last 2 versions'],
@@ -76,7 +79,7 @@ gulp.task('html', function () {
 
 // clean
 gulp.task('clean', function() {
-  return gulp.src(['./dist/styles', './dist/scripts', './dist/images'], {read: false})
+  return gulp.src(['./dist/css', './dist/js', './dist/images'], {read: false})
     .pipe(clean());
 });
 
@@ -95,7 +98,6 @@ gulp.task('default', [
 
    gulp.watch('./src/images/**/*', ['imagemin']);
 
-  //  gulp.watch('./src/*.html').on('change', browserSync.reload);
    gulp.watch('./src/*.html', ['html']);
 
 });
