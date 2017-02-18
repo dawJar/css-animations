@@ -1,130 +1,114 @@
-var   gulp                = require('gulp'),
-      gulpLoadPlugins     = require('gulp-load-plugins'),
-      sass                = require('gulp-sass'),
-      rename              = require('gulp-rename')
-      notify              = require('gulp-notify'),
-      imagemin            = require('gulp-imagemin'),
-      cleanCSS            = require('gulp-clean-css'),
-      autoprefixer        = require('gulp-autoprefixer'),
-      minifyCSS           = require('gulp-minify-css'),
-      concat              = require('gulp-concat'),
-      uglify              = require('gulp-uglify'),
-      changed             = require('gulp-changed'),
-      clean               = require('gulp-clean'),
-      babel               = require('gulp-babel'),
-      bower               = require('gulp-bower'),
-      plumber             = require('gulp-plumber'),
-      filter              = require('gulp-filter'),
-      merge               = require('merge-stream'),
-      mainBowerFiles      = require('main-bower-files'),
-      browserSync         = require('browser-sync').create();
+var gulp                = require('gulp'),
+    merge               = require('merge-stream'),
+    babelPreset         = require('./.babelrc');
+    browserSync         = require('browser-sync').create();
+    plugins             = require("gulp-load-plugins")({
+                            	pattern: ['gulp-*', 'gulp.*', 'main-bower-files'],
+                            	replaceString: /\bgulp[\-.]/
+                          });
 
-var   plugins             = require("gulp-load-plugins")({
-                                pattern: ['gulp-*', 'gulp.*', 'main-bower-files'],
-                                replaceString: /\bgulp[\-.]/
-                            });
-
-var   dist                = 'dist/',
-      distJsFile          = 'main.js',
-      distCssFile         = 'styles.css',
-      distImg             = dist + 'images',
-      src                 = 'src/',
-      htmlFiles           = src + '**/*.html',
-      jsFiles             = src + 'js/*',
-      cssFiles            = src + 'styles/*',
-      sassFiles           = src + 'styles/*.scss',
-      imgFiles            = src + 'images/*',
-      suffix              = { suffix: '.min' },
-      reloadStream        = { stream: true },
-      prefixData          = { browsers: ['last 2 versions'], cascade: false }
-      babelPreset         = require('./.babelrc');
+var src                = 'src/',
+    dest               = 'dest/';
 
 
 // js scripts
 gulp.task('js', function () {
-   gulp.src(plugins.mainBowerFiles().concat(jsFiles))
-      .pipe(plugins.plumber())
-      .pipe(plugins.babel(babelPreset))
-      .pipe(plugins.concat(distJsFile))
-      .pipe(plugins.rename(suffix))
-      .pipe(plugins.uglify())
-      .pipe(gulp.dest(dist + 'js/'))
-      .pipe(notify({ message: 'JS task complete' }))
-      .pipe(browserSync.reload(reloadStream));
+
+  var filterBowerForJsDependencies = plugins.filter('**/*.js', { restore: true });
+
+	return gulp.src(plugins.mainBowerFiles().concat(src + 'js/*'))
+                .pipe(filterBowerForJsDependencies)
+            		.pipe(plugins.plumber())
+                .pipe(plugins.babel(babelPreset))
+                .pipe(plugins.uglify())
+                .pipe(plugins.concat('main.js'))
+                .pipe(plugins.rename({ suffix: '.min' }))
+                .pipe(gulp.dest(dest + 'js'))
+                .pipe(browserSync.reload({ stream: true }))
+                .pipe(plugins.notify({ message: 'JS task complete' }));
 });
 
 // styles
 gulp.task('styles', function () {
 
-   var sassStream = gulp.src(sassFiles)
-      .pipe(plumber())
-      .pipe(sass().on('error', sass.logError))
-      .pipe(concat('sass-styles.css'));
+    var filterForLessDependencies = plugins.filter('**/*.less', { restore: true });
+    var filterForSassDependencies = plugins.filter('**/*.scss', { restore: true });
+    var filterForCssDependencies = plugins.filter('**/*.css', { restore: true });
 
-  var cssStream = gulp.src(plugins.mainBowerFiles().concat(cssFiles))
-      .pipe(plugins.filter('*.css'))
-      .pipe(plugins.concat('css-styles.css'));
+    var cssStream = gulp.src(plugins.mainBowerFiles().concat(src + 'styles/*.css'))
+               .pipe(filterForCssDependencies)
+               .pipe(plugins.plumber())
+               .pipe(plugins.concat('css.css'));
 
-  var mergeStream = merge(sassStream, cssStream)
-      .pipe(autoprefixer(prefixData))
-      .pipe(concat(distCssFile))
-      .pipe(rename(suffix))
-      .pipe(minifyCSS())
-      .pipe(gulp.dest(dist + 'css/'))
-      .pipe(notify({ message: 'Styles task complete' }))
-      .pipe(browserSync.reload(reloadStream));
+    var lessStream = gulp.src(plugins.mainBowerFiles().concat(src + 'styles/*.less'))
+               .pipe(filterForLessDependencies)
+               .pipe(plugins.plumber())
+               .pipe(plugins.less())
+               .pipe(plugins.concat('less.css'));
+
+
+    var sassStream = gulp.src(plugins.mainBowerFiles().concat(src + 'styles/*.scss'))
+               .pipe(filterForSassDependencies)
+               .pipe(plugins.plumber())
+               .pipe(plugins.sass())
+               .pipe(plugins.concat('sass.css'));
+
+    return merge(lessStream, sassStream, cssStream)
+               .pipe(plugins.autoprefixer({
+                 browsers: ['last 2 versions'],
+                 cascade: false
+                }))
+               .pipe(plugins.concat('styles.css'))
+               .pipe(plugins.rename({ suffix: '.min' }))
+               .pipe(plugins.minifyCss())
+               .pipe(gulp.dest(dest + 'css'))
+               .pipe(browserSync.reload({ stream: true }))
+               .pipe(plugins.notify({ message: 'Styles task complete' }));
 
 });
 
 // images
 gulp.task('imagemin', function () {
-   var imgSrc = src + 'images/**/*.+(png|jpg|gif)';
 
-   gulp.src(imgFiles)
-      .pipe(changed(distImg))
-      .pipe(imagemin())
-      .pipe(gulp.dest(distImg))
-      .pipe(notify({ message: 'Imagemin task complete' }))
-      .pipe(browserSync.reload(reloadStream));
+    var imgSrc = src + 'images/**/*.+(png|jpg|gif)';
+
+    return gulp.src(src + 'images/*')
+               .pipe(plugins.changed(dest + 'img'))
+               .pipe(plugins.imagemin())
+               .pipe(gulp.dest(dest + 'img'))
+               .pipe(browserSync.reload({ stream: true }))
+               .pipe(plugins.notify({ message: 'Imagemin task complete' }));
 
 });
 
 // html
 gulp.task('html', function () {
-  gulp.src(htmlFiles)
-      .pipe(gulp.dest(dist))
-      .pipe(notify({ message: 'Html task complete' }))
-      .pipe(browserSync.reload(reloadStream));
+    return gulp.src(src + '**/*.html')
+               .pipe(gulp.dest(dest))
+               .pipe(browserSync.reload({ stream: true }))
+               .pipe(plugins.notify({ message: 'Html task complete' }));
 });
 
 // clean
 gulp.task('clean', function() {
-  return gulp.src([dist + 'css', dist + 'js', dist + 'images'], { read: false })
-    .pipe(clean());
+  return gulp.src([dest + 'css', dest + 'js', dest + 'images'], { read: false })
+    .pipe(plugins.clean());
 });
 
 // default
-gulp.task('default', [
-            'browserSync',
-            'clean',
-            'html',
-            'styles',
-            'imagemin',
-            'js'], function () {
+gulp.task('default', [ 'clean', 'browserSync', 'html', 'styles', 'js', 'imagemin'],
+   function () {
 
-   gulp.watch(cssFiles, ['styles']);
-
-   gulp.watch(jsFiles, ['js']);
-
-   gulp.watch(htmlFiles, ['html']);
-
-   gulp.watch(imgFiles, ['imagemin']);
+   gulp.watch(src + 'styles/*', ['styles'])
+   gulp.watch(src + 'js/*', ['js'])
+   gulp.watch(src + '**/*.html', ['html'])
+   gulp.watch(src + 'images/*', ['imagemin']);
 });
 
 gulp.task('browserSync', function() {
-   browserSync.init({
+   return browserSync.init({
       server: {
-         baseDir: dist
-      },
+         baseDir: dest
+      }
    })
 });
