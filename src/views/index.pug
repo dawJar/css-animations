@@ -1,0 +1,24 @@
+doctype html
+html(lang="pl")
+    head
+        title example title
+        link(rel='stylesheet', href='css/styles.min.css')
+
+    body
+        nav
+            ul.nav-tabs
+                li.menu-item one
+                    ol.dropdown-menu
+                        - var items = ['ale', 'to', 'juz', 'bylo']
+                        each item in items
+                            li.dropdown-item= item
+                li.menu-item two
+                li.menu-item tri
+                li.menu-item four
+
+        h1.test Pug - node template engine
+
+        #container
+            p You are amazing
+
+        script(type='text/javascript', src='js/main.min.js').
