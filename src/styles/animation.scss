@@ -1,0 +1,107 @@
+@import "variables.scss";
+
+
+@mixin menu-animation-one {
+  opacity: 0;
+
+  @for $i from 1 through 4 {
+    &:nth-child(#{$i}) {
+      animation-name: menu-one-keyframas;
+      animation-duration: 300ms;
+      animation-delay: (150ms * $i) - 300;
+      animation-timing-function: ease-in-out;
+      animation-fill-mode: forwards;
+    }
+  }
+}
+
+@keyframes menu-one-keyframas {
+  0% {
+    opacity: 0;
+    transform: rotateY(-90deg) translateY(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: rotateY(0deg) translateY(0px);
+  }
+}
+
+@mixin menu-animation-two {
+  opacity: 0;
+
+  @for $i from 1 through 4 {
+    &:nth-child(#{$i}) {
+      animation-name: menu-two-keyframes;
+      animation-duration: 300ms;
+      animation-delay: (200ms * $i) - 200;
+      animation-timing-function: ease-in-out;
+      animation-fill-mode: forwards;
+    }
+  }
+}
+
+@keyframes menu-two-keyframes {
+  0% {
+    opacity: 0;
+    transform: rotateX(-180deg) translateY(-10px);
+  }
+  80% {
+    opacity: 1;
+    transform: rotateX(30deg) translateY(0);
+  }
+  100% {
+    opacity: 1;
+    transform: rotateX(0deg);
+  }
+}
+
+@mixin menu-animation-tri {
+  opacity: 0;
+  @for $i from 1 through 6 {
+    &:nth-child(#{$i}) {
+      animation-name: menu-tri-keyframes;
+      animation-duration: 400ms;
+      animation-delay: (200ms * $i) - 300;
+      animation-timing-function: ease-in-out;
+      animation-fill-mode: forwards;
+    }
+  }
+}
+
+@keyframes menu-tri-keyframes {
+  0% {
+    opacity: 0;
+    transform: rotateZ(-5deg) scale(0.7);
+  }
+  30% {
+    opacity: 0.9;
+    transform: rotateZ(3deg) scale(1.1);
+  }
+  70% {
+    // opacity: 0.9;
+  }
+  100% {
+    opacity: 1;
+    transform: rotateZ(0) scale(1);
+  }
+}
+
+@mixin menu-animation-four {
+  opacity: 0;
+  animation-name: menu-four-keyframes;
+  animation-duration: 0;
+  animation-delay: 300ms;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+}
+
+@keyframes menu-four-keyframes {
+  0% {
+    opacity: 0;
+    transform: rotateY(-90deg) translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: rotateY(0deg) translateY(0px);
+  }
+}

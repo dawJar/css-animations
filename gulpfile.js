@@ -92,7 +92,7 @@ gulp.task('views', function () {
 
 // clean
 gulp.task('clean', function() {
-  return gulp.src([dest + 'css', dest + 'js', dest + 'images'], { read: false })
+  return gulp.src(dest, { read: false })
     .pipe(plugins.clean());
 });
 

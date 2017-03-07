@@ -1,0 +1,25 @@
+@import "variables.scss";
+@import "animation.scss";
+
+
+@mixin ol-dropdown-style {
+  display: none;
+  list-style-type: none;
+  position: absolute;
+  width: 20%;
+  top: $navHeight;
+  background-color: transparent;
+  cursor: pointer;
+
+
+  li.dropdown-item {
+    display: none;
+    min-height: $navHeight;
+    padding-top: $navPaddingTop;
+
+    &:hover {
+      background-color: $navDropdownMenuBgColorHover;
+    }
+  }
+
+}

@@ -1,0 +1,83 @@
+@import "variables.scss";
+@import "mixins.scss";
+@import "animation.scss";
+
+
+nav {
+  background-color: $navBgColor;
+  padding: 0;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  font-size: $navFontSize;
+
+  // main nav
+  ul.nav-tabs {
+    background-color: $navMainMenuBgColor;
+    padding: 0;
+    margin: 0 auto;
+    width: 80%;
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+
+  }
+
+  // main nav li
+  li.menu-item {
+    padding-top: $navPaddingTop;
+    flex: 1;
+    height: $navHeight;
+
+    &:hover {
+      background-color: $navMainMenuBgColorHover;
+      ol.dropdown-menu-one,
+      ol.dropdown-menu-two,
+      ol.dropdown-menu-tri,
+      ol.dropdown-menu-four
+      {
+        display: block;
+        li {
+          display: block;
+        }
+      }
+    }
+  }
+
+  // dropdown lists
+  ol.dropdown-menu-one {
+    @include ol-dropdown-style;
+    li {
+      background-color: $navDropdownMenuBgColor;
+      @include menu-animation-one;
+    }
+  }
+
+  ol.dropdown-menu-two {
+    @include ol-dropdown-style;
+    li {
+      background-color: $navDropdownMenuBgColor;
+      @include menu-animation-two;
+    }
+  }
+
+  ol.dropdown-menu-tri {
+    @include ol-dropdown-style;
+    li {
+      background-color: $navDropdownMenuBgColor;
+      @include menu-animation-tri;
+    }
+  }
+
+  ol.dropdown-menu-four {
+    @include ol-dropdown-style;
+    li {
+      background-color: $navDropdownMenuBgColor;
+      border: 1px solid red;
+      @include menu-animation-four;
+    }
+  }
+
+}
