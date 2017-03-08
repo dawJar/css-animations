@@ -33,7 +33,7 @@
     &:nth-child(#{$i}) {
       animation-name: menu-two-keyframes;
       animation-duration: 300ms;
-      animation-delay: (200ms * $i) - 200;
+      animation-delay: (200ms * $i) - 500;
       animation-timing-function: ease-in-out;
       animation-fill-mode: forwards;
     }
@@ -60,8 +60,8 @@
   @for $i from 1 through 6 {
     &:nth-child(#{$i}) {
       animation-name: menu-tri-keyframes;
-      animation-duration: 400ms;
-      animation-delay: (200ms * $i) - 300;
+      animation-duration: 300ms;
+      animation-delay: (150ms * $i) - 450;
       animation-timing-function: ease-in-out;
       animation-fill-mode: forwards;
     }
@@ -88,20 +88,62 @@
 
 @mixin menu-animation-four {
   opacity: 0;
-  animation-name: menu-four-keyframes;
-  animation-duration: 0;
-  animation-delay: 300ms;
-  animation-timing-function: ease-in-out;
-  animation-fill-mode: forwards;
+  @for $i from 1 through 8 {
+    &:nth-child(#{$i}) {
+      animation-name: menu-four-keyframes;
+      animation-duration: 550ms;
+      animation-delay: (50ms * $i) - 600;
+      animation-timing-function: ease-in-out;
+      animation-fill-mode: forwards;
+    }
+  }
 }
 
 @keyframes menu-four-keyframes {
   0% {
     opacity: 0;
-    transform: rotateY(-90deg) translateY(30px);
+    transform: rotate(-5deg) translateX(20px) translateY(30px);
+    transform-origin: left;
+  }
+  60% {
+    opacity: 0.9;
+    transform: rotate(5deg) translateX(-10px) translateY(20px);
+    transform-origin: right;
   }
   100% {
     opacity: 1;
-    transform: rotateY(0deg) translateY(0px);
+    transform: rotate(0);
+    height: $navHeight;
+  }
+}
+
+@mixin menu-animation-fajv {
+  opacity: 0;
+  @for $i from 1 through 8 {
+    &:nth-child(#{$i}) {
+      animation-name: menu-fajv-keyframes;
+      animation-duration: 500ms;
+      // animation-delay: (50ms * $i) - 200;
+      animation-delay: (50ms * $i) - 450;
+      animation-timing-function: ease-in-out;
+      animation-fill-mode: forwards;
+    }
+  }
+}
+
+@keyframes menu-fajv-keyframes {
+  0% {
+    opacity: 0;
+    // transform: rotateY(20deg);
+    transform: scale(0.7);
+  }
+  70% {
+    opacity: 0.8;
+    // transform: rotateY(-10deg);
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scaleX(1) rotateX(0);
   }
 }

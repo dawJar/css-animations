@@ -7,7 +7,7 @@ nav {
   background-color: $navBgColor;
   padding: 0;
   margin: 0 auto;
-  width: 100%;
+  width: $navWidth;
   display: flex;
   justify-content: center;
   font-size: $navFontSize;
@@ -17,7 +17,7 @@ nav {
     background-color: $navMainMenuBgColor;
     padding: 0;
     margin: 0 auto;
-    width: 80%;
+    width: $navWidth;
     list-style-type: none;
     display: flex;
     align-items: center;
@@ -33,11 +33,7 @@ nav {
 
     &:hover {
       background-color: $navMainMenuBgColorHover;
-      ol.dropdown-menu-one,
-      ol.dropdown-menu-two,
-      ol.dropdown-menu-tri,
-      ol.dropdown-menu-four
-      {
+      ol.dropdown {
         display: block;
         li {
           display: block;
@@ -77,6 +73,15 @@ nav {
       background-color: $navDropdownMenuBgColor;
       border: 1px solid red;
       @include menu-animation-four;
+    }
+  }
+
+  ol.dropdown-menu-fajv {
+    @include ol-dropdown-style;
+    li {
+      background-color: $navDropdownMenuBgColor;
+      border: 1px solid red;
+      @include menu-animation-fajv;
     }
   }
 
