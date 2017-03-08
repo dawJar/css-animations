@@ -92,7 +92,8 @@ gulp.task('views', function () {
 
 // clean
 gulp.task('clean', function() {
-  return gulp.src(dest, { read: false })
+  return gulp.src(dest)
+    .pipe(plugins.clean({ force: true }))
     .pipe(plugins.clean());
 });
 

@@ -4,6 +4,7 @@
 
 
 nav {
+  position: fixed;
   background-color: $navBgColor;
   padding: 0;
   margin: 0 auto;
@@ -71,7 +72,6 @@ nav {
     @include ol-dropdown-style;
     li {
       background-color: $navDropdownMenuBgColor;
-      border: 1px solid red;
       @include menu-animation-four;
     }
   }
@@ -80,7 +80,6 @@ nav {
     @include ol-dropdown-style;
     li {
       background-color: $navDropdownMenuBgColor;
-      border: 1px solid red;
       @include menu-animation-fajv;
     }
   }

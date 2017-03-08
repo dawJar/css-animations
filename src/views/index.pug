@@ -1,41 +1,15 @@
 doctype html
 html(lang="pl")
-    head
-        title example title
-        link(rel='stylesheet', href='css/styles.min.css')
+
+    include partials/head.pug
 
     body
-        nav
-            ul.nav-tabs
-                li.menu-item one
-                    ol.dropdown.dropdown-menu-one
-                        - var items = ['ale', 'to', 'juz', 'bylo']
-                        each item in items
-                            li.dropdown-item= item
-                li.menu-item two
-                    ol.dropdown.dropdown-menu-two
-                        - var items = ['another', 'day', 'in', 'paradise']
-                        each item in items
-                            li.dropdown-item= item
-                li.menu-item tri
-                    ol.dropdown.dropdown-menu-tri
-                        - var items = ['smthing', 'else', 'smthing', 'else', 'smthing', 'else',]
-                        each item in items
-                            li.dropdown-item= item
-                li.menu-item four
-                    ol.dropdown.dropdown-menu-four
-                        - var items = ['lets', 'do', 'a ', 'long', 'lets', 'do', 'a ', 'one']
-                        each item in items
-                            li.dropdown-item= item
-                li.menu-item fajv
-                    ol.dropdown.dropdown-menu-fajv
-                        - var items = ['lets', 'do', 'a ', 'long', 'lets', 'do', 'a ', 'one']
-                        each item in items
-                            li.dropdown-item= item
 
-        h1.test Pug - node template engine
+        include partials/nav.pug
 
-        #container
-            p You are amazing
+        include partials/container-top.pug
+
+        include partials/container-content.pug
+
 
         script(type='text/javascript', src='js/main.min.js').

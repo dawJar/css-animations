@@ -1,0 +1,58 @@
+@import "variables.scss";
+@import "animation.scss";
+
+
+
+div#container-top {
+  padding-top: $navHeight;
+  height: 100%;
+  width: 100%;
+  background-color: $containerTopBgColor;
+
+  display: flex;
+  flex-direction: column;
+}
+
+div.row {
+  min-height: 400px;
+  width: inherit;
+  display: flex;
+  flex-direction: row;
+}
+div.row-reverse {
+  flex-direction: row-reverse;
+}
+
+div.row > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+div.item-one {
+  order: 1;
+  flex-grow: 1;
+  flex-basis: 30%;
+  background-color: aquamarine;
+}
+div.item-two {
+  order: 2;
+  flex-grow: 2;
+  background-color: cadetblue;
+}
+div.item-tri {
+  order: 3;
+  flex-grow: 3;
+  background-color: cornsilk;
+}
+div.item-four {
+  order: 4;
+  flex-grow: 4;
+  background-color: darksalmon;
+}
+div.item-fajv {
+  order: 5;
+  flex-grow: 5;
+  flex-shrink: 1;
+  background-color: indianred;
+}
